@@ -15,6 +15,7 @@ def index():
 @app.route('/record', methods=['POST'])
 def record():
     text, name, age, date, medicine = assistant.liveRecord()
+    print(text, name, age, date, medicine)
     return {
         "text": text,
         "name": name,

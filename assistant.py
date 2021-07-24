@@ -74,7 +74,6 @@ def extract_details(text):
                      '#ffd8b1', '#f58231', '#f032e6', '#42d4f4']
     for label, colour in zip(med7.pipe_labels['ner'], seven_colours):
         col_dict[label] = colour
-
     options = {'ents': med7.pipe_labels['ner'], 'colors': col_dict}
 
     doc = med7(text)
@@ -116,24 +115,25 @@ def extract(text):
     age = get_age(text)
     date = str(dt.today())
     details = extract_details(text)
-    medicine = {}
-    i = 0
-    while i < len(details):
-        while i < len(details) and details[i][1] == "DRUG":
-            temp = ["", "", ""]
-            temp[0] = details[i][0]
-            i += 1
-            while i < len(details) and details[i][1] != "DRUG":
-                if details[i][1] == "STRENGTH" or details[i][1] == "DOSAGE":
-                    temp[1] += details[i][0] + " "
+    # tablet = []
+    # i = 0
+    # while i < len(details):
+    #     while i < len(details) and details[i][1] == "DRUG":
+    #         temp = ["", "", ""]
+    #         temp[0] = details[i][0]
+    #         i += 1
+    #         while i < len(details) and details[i][1] != "DRUG":
+    #             if details[i][1] == "STRENGTH" or details[i][1] == "DOSAGE":
+    #                 temp[1] += details[i][0] + " "
 
-                if details[i][1] == "DURATION" or details[i][1] == "FREQUENCY":
-                    temp[2] += details[i][0] + " "
+    #             if details[i][1] == "DURATION" or details[i][1] == "FREQUENCY":
+    #                 temp[2] += details[i][0] + " "
 
-                i += 1
-            medicine.append(temp)
-    i += 1
-    return name, age, date, medicine
+    #             i += 1
+    #         tablet.append(temp)
+    # i += 1
+
+    return name, age, date, details
 
 
 def liveRecord():
@@ -147,13 +147,14 @@ def liveRecord():
         text = allEars.recognize_google(audio)
         name, age, date, medicine = extract(text)
         return (text.upper(), name, age, date, medicine)
+    # return (text.upper(), 1, 1, 1, 1)
     except:
-        name = "NONE"
-        age = "NONE"
-        date = str(dt.today())
-        medicine = "NONE"
-        create(name, age, date, medicine)
-        return ("Error while converting speech to text! Refresh page to try again.", name, age, date, medicine)
+        # name = "NONE"
+        # age = "NONE"
+        # date = str(dt.today())
+        # medicine = "NONE"
+        #create(name, age, date, medicine)
+        return ("Error while converting speech to text! Refresh page to try again.", 'unknown', 'unknown', str(dt.today()), 'unknown')
 
     # try:
     #     name, age, date, tablet = extract(text)

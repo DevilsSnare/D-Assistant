@@ -3,6 +3,8 @@ recordButton.addEventListener('click', record);
 
 function record() {
     console.log('session started!')
+    document.getElementById('playground').innerHTML='<img src="/static/processing.gif" width="20%">';
+
     $.ajax({
         type: 'POST',
         url: '/record',
